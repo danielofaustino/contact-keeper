@@ -28,18 +28,24 @@ router.post(
   ],
   async (req, res) => {
     const errors = validationResult(req);
+
+    // test if there are errors in validation 
     if (!errors.isEmpty()) {
       return res.status(400).json({ errors: errors.array() });
     }
 
+    
     const { email, password } = req.body;
 
     try {
+
+      //verify if email is valid or not
       let user = await User.findOne({ email });
       if (!user) {
         return res.status(400).json({ msg: 'Invalid Credentials' });
       }
 
+      // verify if password from req.body is the same that is in database;
       const isMatch = await bcrypt.compare(password, user.password);
 
       if (!isMatch) {
