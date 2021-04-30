@@ -3,10 +3,11 @@ const router = express.Router();
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const config = require('config');
+const auth = require('../middleware/auth');
 const { check, validationResult } = require('express-validator');
 
 const User = require('../models/User');
-
+const Contact = require('../models/Contact');
 // @route   POST  api/users
 // @desc    Register a user
 // @access  Public
@@ -70,5 +71,29 @@ router.post(
     }
   }
 );
+
+// @route   Delete api/users
+// @desc    Delete a user
+// @access  Private
+
+router.delete('/:id', auth, async (req, res) => {
+  try {
+    let user = await User.findById(req.params.id);
+
+    if (!user) return res.status(404).json({ msg: 'User not found' });
+
+    // Make sure user owns contact
+    if (user.id.toString() !== req.user.id) {
+      return res.status(401).json({ msg: 'Not authorized' });
+    }
+
+    await User.findByIdAndRemove(req.params.id);
+    await Contact.deleteMany({ user: req.params.id });
+    res.json({ msg: ' User and Contacts removed' });
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send('Server Error');
+  }
+});
 
 module.exports = router;
