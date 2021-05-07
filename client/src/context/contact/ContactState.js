@@ -28,7 +28,7 @@ const ContactState = (props) => {
   // Add Contact
 
   const addContact = async (contact) => {
-    const config = { headers: { 'Content-Type': 'apllication/json' } };
+    const config = { headers: { 'Content-Type': 'application/json' } };
 
     try {
       const res = await axios.post('/api/contacts', contact, config);
