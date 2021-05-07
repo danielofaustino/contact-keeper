@@ -1,3 +1,4 @@
+/* eslint-disable import/no-anonymous-default-export */
 import {
   GET_CONTACTS,
   ADD_CONTACT,
@@ -7,8 +8,6 @@ import {
   UPDATE_CONTACT,
   FILTER_CONTACTS,
   CLEAR_FILTER,
-  SET_ALERT,
-  REMOVE_ALERT,
   CONTACT_ERROR,
   CLEAR_CONTACTS,
 } from '../types';
@@ -45,6 +44,7 @@ export default (state, action) => {
         contacts: state.contacts.filter(
           (contact) => contact._id !== action.payload
         ),
+        filtered: null,
         loading: false,
       };
     case CLEAR_CONTACTS:
