@@ -32,9 +32,11 @@ export default (state, action) => {
         contacts: state.contacts.map((contact) =>
           contact._id === action.payload._id ? action.payload : contact
         ),
-        filtered: state.filtered.map((contact) =>
-          contact._id === action.payload._id ? action.payload : contact
-        ),
+        filtered: state.filtered !== null
+          ? state.filtered.map((contact) =>
+              contact._id === action.payload._id ? action.payload : contact
+            )
+          : (state.filtered = null),
         loading: false,
       };
     case DELETE_CONTACT:
