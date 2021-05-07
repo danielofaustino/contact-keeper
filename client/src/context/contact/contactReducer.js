@@ -24,13 +24,16 @@ export default (state, action) => {
     case ADD_CONTACT:
       return {
         ...state,
-        contacts: [ action.payload,...state.contacts],
+        contacts: [action.payload, ...state.contacts],
         loading: false,
       };
     case UPDATE_CONTACT:
       return {
         ...state,
         contacts: state.contacts.map((contact) =>
+          contact._id === action.payload._id ? action.payload : contact
+        ),
+        filtered: state.filtered.map((contact) =>
           contact._id === action.payload._id ? action.payload : contact
         ),
         loading: false,
@@ -40,7 +43,7 @@ export default (state, action) => {
         ...state,
         // filter contacts , only contact that is diferent from id
         contacts: state.contacts.filter(
-          contact => contact._id !== action.payload
+          (contact) => contact._id !== action.payload
         ),
         loading: false,
       };
