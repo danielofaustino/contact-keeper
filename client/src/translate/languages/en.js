@@ -7,6 +7,16 @@ const messages = {
         password: 'Password',
         button: 'Login',
       },
+      register:{
+        title: 'Sign',
+        register:'Up',
+        name:'Name',
+        email: 'Email Adress',
+        password: 'Password',
+        button: 'Sign Up',
+        confirm:'Repeat the password',
+        
+      },
       navbar: {
         login: 'Login',
         logout: 'Logout',

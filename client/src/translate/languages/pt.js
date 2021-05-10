@@ -7,6 +7,15 @@ const messages = {
         password: 'Senha',
         button: 'Entrar',
       },
+      register:{
+        title: 'Faça seu',
+        register:'Cadastro',
+        name:'Nome',
+        email: 'Endereço de Email',
+        password: 'Senha',
+        confirm:'Confirme a senha',
+        button: 'Cadastrar',
+      },
       navbar: {
         login: 'Entrar',
         logout: 'Sair',
