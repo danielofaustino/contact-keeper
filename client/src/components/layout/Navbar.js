@@ -1,15 +1,37 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import AuthContext from '../../context/auth/authContext';
 import ContactContext from '../../context/contact/contactContext';
+import ReactFlagsSelect from 'react-flags-select';
+import { Us, Br } from 'react-flags-select';
+
+import { i18n } from '../../translate/i18n';
+
+const I18N_STORAGE_KEY = 'i18nextLng';
 
 const Navbar = ({ title, icon }) => {
   const authContext = useContext(AuthContext);
   const contactContext = useContext(ContactContext);
 
   const { isAuthenticated, logout, user } = authContext;
-  const { clearContacts} = contactContext;
+  const { clearContacts } = contactContext;
+  const [selected, setSelected] = useState(
+    localStorage.getItem(I18N_STORAGE_KEY)
+  );
+
+  const handleSelectChange = async (code) => {
+    await setSelected(code);
+
+    if (code === 'BR') {
+      code = 'pt-BR';
+    } else if (code === 'US') {
+      code = 'en-US';
+    }
+
+    await localStorage.setItem(I18N_STORAGE_KEY, code);
+    window.location = window.location;
+  };
 
   const onLogout = () => {
     logout();
@@ -18,11 +40,11 @@ const Navbar = ({ title, icon }) => {
 
   const authLinks = (
     <>
-      <li>Hello {user && user.name}</li>
+      <li>{i18n.t('navbar.hello')} {user && user.name}</li>
       <li>
         <a onClick={onLogout} href="#!">
           <i className="fas fa-sign-out-alt"></i>
-          <span className="hide-sm">Logout</span>
+          <span className="hide-sm"> {i18n.t('navbar.logout')}</span>
         </a>
       </li>
     </>
@@ -31,10 +53,10 @@ const Navbar = ({ title, icon }) => {
   const guestLinks = (
     <>
       <li>
-        <Link to="/register">Register</Link>
+        <Link to="/register">{i18n.t('navbar.register')}</Link>
       </li>
       <li>
-        <Link to="/login">Login</Link>
+        <Link to="/login">{i18n.t('navbar.login')}</Link>
       </li>
     </>
   );
@@ -44,7 +66,18 @@ const Navbar = ({ title, icon }) => {
       <h1>
         <i className={icon} /> {title}
       </h1>
-      <ul>{isAuthenticated ? authLinks : guestLinks}</ul>
+
+      <ul>
+        {isAuthenticated ? authLinks : guestLinks}{' '}
+        <ReactFlagsSelect
+          countries={['BR', 'US']}
+          customLabels={{ BR: '.', US: '.' }}
+          placeholder={selected === 'pt-BR' ? <Br /> : <Us />}
+          selected={selected}
+          onSelect={(code) => handleSelectChange(code)}
+          className="menu-flags"
+        />
+      </ul>
     </div>
   );
 };

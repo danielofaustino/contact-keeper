@@ -1,6 +1,7 @@
 import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
 import ContactContext from '../../context/contact/contactContext';
+import { i18n } from '../../translate/i18n';
 
 const ContactItem = ({ contact }) => {
   const contactContext = useContext(ContactContext);
@@ -25,7 +26,11 @@ const ContactItem = ({ contact }) => {
             (type === 'professional' ? 'badge-success' : 'badge-primary')
           }
         >
-          {type.charAt(0).toUpperCase() + type.slice(1)}
+          {type === 'personal'
+            ? i18n.t('contactItem.personal').charAt(0).toUpperCase() +
+              i18n.t('contactItem.personal').slice(1)
+            : i18n.t('contactItem.professional').charAt(0).toUpperCase() +
+              i18n.t('contactItem.professional').slice(1)}
         </span>
       </h3>
       <ul className="list">
@@ -44,10 +49,10 @@ const ContactItem = ({ contact }) => {
             className="btn btn-dark btn-sm"
             onClick={() => setCurrent(contact)}
           >
-            Edit
+            {i18n.t('contactItem.edit')}
           </button>
           <button className="btn btn-danger btn-sm" onClick={onDelete}>
-            Delete
+            {i18n.t('contactItem.delete')}
           </button>
         </p>
       </ul>

@@ -1,5 +1,6 @@
 import React, { useState, useContext, useEffect } from 'react';
 import ContactContext from '../../context/contact/contactContext';
+import { i18n } from '../../translate/i18n';
 
 const ContactForm = () => {
   const contactContext = useContext(ContactContext);
@@ -46,37 +47,39 @@ const ContactForm = () => {
       name: '',
       email: '',
       phone: '',
-      type: 'personal',
+      type: `${i18n.t('contactForm.personal')}`,
     });
   };
 
   return (
     <form onSubmit={onSubmit}>
       <h2 className="text-primary">
-        {current ? 'Edit Contact' : 'Add Contact'}
+        {current
+          ? `${i18n.t('contactForm.updateTitle')}`
+          : `${i18n.t('contactForm.title')}`}
       </h2>
       <input
         type="text"
-        placeholder="Name"
+        placeholder={i18n.t('contactForm.name')}
         name="name"
         value={name}
         onChange={onChange}
       />
       <input
         type="text"
-        placeholder="Email"
+        placeholder={i18n.t('contactForm.email')}
         name="email"
         value={email}
         onChange={onChange}
       />
       <input
         type="text"
-        placeholder="Phone"
+        placeholder={i18n.t('contactForm.phone')}
         name="phone"
         value={phone}
         onChange={onChange}
       />
-      <h5>Contact Type</h5>
+      <h5>{i18n.t('contactForm.contactType')}</h5>
       <input
         type="radio"
         name="type"
@@ -84,7 +87,7 @@ const ContactForm = () => {
         checked={type === 'personal'}
         onChange={onChange}
       />{' '}
-      Personal{' '}
+      {i18n.t('contactForm.personal')}{' '}
       <input
         type="radio"
         name="type"
@@ -92,18 +95,22 @@ const ContactForm = () => {
         checked={type === 'professional'}
         onChange={onChange}
       />{' '}
-      Professional
+      {i18n.t('contactForm.professional')}
       <div>
         <input
           type="submit"
-          value={current ? 'Update Contact' : 'Add Contact'}
+          value={
+            current
+              ? `${i18n.t('contactForm.updateButton')}`
+              : `${i18n.t('contactForm.button')}`
+          }
           className="btn btn-primary btn-block"
         />
       </div>
       {current && (
         <div>
           <button className="btn btn-light btn-block" onClick={clearAll}>
-            Clear
+            {i18n.t('contactForm.clear')}
           </button>
         </div>
       )}

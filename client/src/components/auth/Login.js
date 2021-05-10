@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useContext } from 'react';
 import AlertContext from '../../context/alert/alertContext';
 import AuthContext from '../../context/auth/authContext';
+import { i18n } from '../../translate/i18n';
 
 const Login = (props) => {
   const alertContext = useContext(AlertContext);
@@ -45,12 +46,12 @@ const Login = (props) => {
   return (
     <div className="form-container">
       <h1>
-        Account <span className="text-primary">Login</span>
+        {i18n.t('login.title')} <span className="text-primary">Login</span>
       </h1>
       <form onSubmit={onSubmit}>
         {/* INPUT EMAIL */}
         <div className="form-group">
-          <label htmlFor="email">Email Adress</label>
+          <label htmlFor="email">{i18n.t('login.email')}</label>
           <input
             type="email"
             name="email"
@@ -61,7 +62,7 @@ const Login = (props) => {
         </div>
 
         <div className="form-group">
-          <label htmlFor="password">Password</label>
+          <label htmlFor="password">{i18n.t('login.password')}</label>
           <input
             type="password"
             name="password"
@@ -73,7 +74,7 @@ const Login = (props) => {
 
         <input
           type="submit"
-          value="Login"
+          value={i18n.t('login.button')}
           className="btn btn-primary btn-block"
         />
       </form>

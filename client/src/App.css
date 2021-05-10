@@ -444,3 +444,15 @@ table th {
     justify-content: center;
   }
 }
+
+.select__language {
+  border-radius: 5px;
+  font-size: 0.8rem;
+  display: block;
+  text-align: center;
+}font-size: 0.2rem;
+
+.menu-flags {
+  color: #333;
+  flex-direction: column;
+}
