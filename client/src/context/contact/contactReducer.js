@@ -1,4 +1,3 @@
-/* eslint-disable import/no-anonymous-default-export */
 import {
   GET_CONTACTS,
   ADD_CONTACT,
@@ -18,37 +17,35 @@ export default (state, action) => {
       return {
         ...state,
         contacts: action.payload,
-        loading: false,
       };
     case ADD_CONTACT:
       return {
         ...state,
         contacts: [action.payload, ...state.contacts],
-        loading: false,
       };
-    case UPDATE_CONTACT:
-      return {
-        ...state,
-        contacts: state.contacts.map((contact) =>
-          contact._id === action.payload._id ? action.payload : contact
-        ),
-        filtered: state.filtered !== null
-          ? state.filtered.map((contact) =>
-              contact._id === action.payload._id ? action.payload : contact
-            )
-          : (state.filtered = null),
-        loading: false,
-      };
-    case DELETE_CONTACT:
-      return {
-        ...state,
-        // filter contacts , only contact that is diferent from id
-        contacts: state.contacts.filter(
-          (contact) => contact._id !== action.payload
-        ),
-        filtered: null,
-        loading: false,
-      };
+      case UPDATE_CONTACT:
+        return {
+          ...state,
+          contacts: state.contacts.map((contact) =>
+            contact._id === action.payload._id ? action.payload : contact
+          ),
+          filtered: state.filtered !== null
+            ? state.filtered.map((contact) =>
+                contact._id === action.payload._id ? action.payload : contact
+              )
+            : (state.filtered = null),
+          loading: false,
+        };
+        case DELETE_CONTACT:
+          return {
+            ...state,
+            // filter contacts , only contact that is diferent from id
+            contacts: state.contacts.filter(
+              (contact) => contact._id !== action.payload
+            ),
+            filtered: null,
+            loading: false,
+          };
     case CLEAR_CONTACTS:
       return {
         ...state,
@@ -70,9 +67,9 @@ export default (state, action) => {
     case FILTER_CONTACTS:
       return {
         ...state,
-        filtered: state.contacts.filter((contact) => {
-          const regex = new RegExp(`${action.payload}`, 'gi');
-          return contact.name.match(regex) || contact.email.match(regex);
+        filtered: state.contacts.filter(({ name, email }) => {
+          const testString = `${name}${email}`.toLowerCase();
+          return testString.includes(action.payload.toLowerCase());
         }),
       };
     case CLEAR_FILTER:
@@ -86,6 +83,6 @@ export default (state, action) => {
         error: action.payload,
       };
     default:
-      return state;
+      throw new Error(`Unsupported type of: ${action.type}`);
   }
 };

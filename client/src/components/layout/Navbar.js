@@ -1,8 +1,8 @@
 import React, { useContext, useState } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
-import AuthContext from '../../context/auth/authContext';
-import ContactContext from '../../context/contact/contactContext';
+import { useAuth, logout } from '../../context/auth/AuthState';
+import { useContacts, clearContacts } from '../../context/contact/ContactState';
 import ReactFlagsSelect from 'react-flags-select';
 import { Us, Br } from 'react-flags-select';
 
@@ -11,11 +11,18 @@ import { i18n } from '../../translate/i18n';
 const I18N_STORAGE_KEY = 'i18nextLng';
 
 const Navbar = ({ title, icon }) => {
-  const authContext = useContext(AuthContext);
-  const contactContext = useContext(ContactContext);
+  const [authState, authDispatch] = useAuth();
+  const { isAuthenticated, user } = authState;
 
-  const { isAuthenticated, logout, user } = authContext;
-  const { clearContacts } = contactContext;
+   // we just need the contact dispatch without state.
+   const contactDispatch = useContacts()[1];
+
+   const onLogout = () => {
+    logout(authDispatch);
+    clearContacts(contactDispatch);
+  };
+
+ 
   const [selected, setSelected] = useState(
     localStorage.getItem(I18N_STORAGE_KEY)
   );
@@ -34,10 +41,6 @@ const Navbar = ({ title, icon }) => {
     window.location = window.location;
   };
 
-  const onLogout = () => {
-    logout();
-    clearContacts();
-  };
 
   const authLinks = (
     <>

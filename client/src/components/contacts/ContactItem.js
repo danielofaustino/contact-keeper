@@ -1,19 +1,24 @@
 import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
-import ContactContext from '../../context/contact/contactContext';
+import {
+  useContacts,
+  deleteContact,
+  setCurrent,
+  clearCurrent
+} from '../../context/contact/ContactState';
 import { i18n } from '../../translate/i18n';
 
 const ContactItem = ({ contact }) => {
-  const contactContext = useContext(ContactContext);
+  // we just need the contact dispatch without state.
+  const contactDispatch = useContacts()[1];
 
   const { _id, name, email, phone, type } = contact;
 
-  const { deleteContact, setCurrent, clearCurrent } = contactContext;
-
   const onDelete = () => {
-    deleteContact(_id);
-    clearCurrent();
+    deleteContact(contactDispatch, _id);
+    clearCurrent(contactDispatch);
   };
+
 
   return (
     <div className="card bg-light">
@@ -45,10 +50,10 @@ const ContactItem = ({ contact }) => {
           </li>
         )}
         <p>
-          <button
-            className="btn btn-dark btn-sm"
-            onClick={() => setCurrent(contact)}
-          >
+        <button
+          className='btn btn-dark btn-sm'
+          onClick={() => setCurrent(contactDispatch, contact)}
+        >
             {i18n.t('contactItem.edit')}
           </button>
           <button className="btn btn-danger btn-sm" onClick={onDelete}>
