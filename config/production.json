@@ -1,0 +1,4 @@
+{
+  "mongoURI":"mongodb+srv://danielofaustino:LinuxBR951@cluster0.izb07.gcp.mongodb.net/contactKepper?retryWrites=true&w=majority",
+  "jwtSecret":"contact21."
+}
