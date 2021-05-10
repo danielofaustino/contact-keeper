@@ -30,6 +30,7 @@ const Navbar = ({ title, icon }) => {
     }
 
     await localStorage.setItem(I18N_STORAGE_KEY, code);
+    // eslint-disable-next-line no-self-assign
     window.location = window.location;
   };
 
