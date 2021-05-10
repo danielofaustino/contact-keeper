@@ -19,7 +19,7 @@ router.get('/', auth, async (req, res) => {
     res.json(user);
   } catch (err) {
     console.error(err.message);
-    res.status(500).send('Server Error');
+    res.status(500).send('Erro no Servidor');
   }
 });
 
@@ -30,8 +30,8 @@ router.get('/', auth, async (req, res) => {
 router.post(
   '/',
   [
-    check('email', 'Please include a valid email').isEmail(),
-    check('password', 'Password is required').exists(),
+    check('email', 'Por Favor, Digite um email válido').isEmail(),
+    check('password', 'A senha é obrigatória').exists(),
   ],
   async (req, res) => {
     const errors = validationResult(req);
@@ -47,14 +47,14 @@ router.post(
       //verify if email is valid or not
       let user = await User.findOne({ email });
       if (!user) {
-        return res.status(400).json({ msg: 'Invalid Credentials' });
+        return res.status(400).json({ msg: 'Credenciais Inválidas' });
       }
 
       // verify if password from req.body is the same that is in database;
       const isMatch = await bcrypt.compare(password, user.password);
 
       if (!isMatch) {
-        return res.status(400).json({ msg: 'Invalid Credentials' });
+        return res.status(400).json({ msg: 'Credenciais Inválidas' });
       }
 
       const payload = {
@@ -76,7 +76,7 @@ router.post(
       );
     } catch (err) {
       console.error(err.message);
-      res.status(500).send('Server Error');
+      res.status(500).send('Erro no Servidor');
     }
   }
 );

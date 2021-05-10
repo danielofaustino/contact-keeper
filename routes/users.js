@@ -34,7 +34,7 @@ router.post(
       let user = await User.findOne({ email });
 
       if (user) {
-        return res.status(400).json({ msg: 'User Already exists' });
+        return res.status(400).json({ msg: 'Este usuário ja existe' });
       }
 
       user = new User({
@@ -67,7 +67,7 @@ router.post(
       );
     } catch (err) {
       console.error(err.message);
-      res.status(500).send('Server Error');
+      res.status(500).send('Erro no Servidor');
     }
   }
 );
@@ -80,19 +80,19 @@ router.delete('/:id', auth, async (req, res) => {
   try {
     let user = await User.findById(req.params.id);
 
-    if (!user) return res.status(404).json({ msg: 'User not found' });
+    if (!user) return res.status(404).json({ msg: 'Usuário não encontrado' });
 
     // Make sure user owns contact
     if (user.id.toString() !== req.user.id) {
-      return res.status(401).json({ msg: 'Not authorized' });
+      return res.status(401).json({ msg: 'Não Autorizado!' });
     }
 
     await User.findByIdAndRemove(req.params.id);
     await Contact.deleteMany({ user: req.params.id });
-    res.json({ msg: ' User and Contacts removed' });
+    res.json({ msg: ' Usuário e contatos removidos' });
   } catch (err) {
     console.error(err.message);
-    res.status(500).send('Server Error');
+    res.status(500).send('Erro no servidor!');
   }
 });
 

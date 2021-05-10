@@ -28,7 +28,7 @@ router.get('/', auth, async (req, res) => {
 
 router.post(
   '/',
-  [auth, [check('name', 'Name is required').not().isEmpty()]],
+  [auth, [check('name', 'O Nome é Obrigatório').not().isEmpty()]],
   async (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
@@ -50,7 +50,7 @@ router.post(
       res.json(contact);
     } catch (err) {
       console.error(er.message);
-      res.status(500).send('Server Error');
+      res.status(500).send('Erro no Servidor');
     }
   }
 );
@@ -73,11 +73,11 @@ router.put('/:id', auth, async (req, res) => {
   try {
     let contact = await Contact.findById(req.params.id);
 
-    if (!contact) return res.status(404).json({ msg: 'Contact not found' });
+    if (!contact) return res.status(404).json({ msg: 'Contato não encontrado' });
 
     // Make sure user owns contact
     if (contact.user.toString() !== req.user.id) {
-      return res.status(401).json({ msg: 'Not authorized' });
+      return res.status(401).json({ msg: 'Não Autorizado!' });
     }
 
     contact = await Contact.findByIdAndUpdate(
@@ -88,7 +88,7 @@ router.put('/:id', auth, async (req, res) => {
     res.json(contact);
   } catch (err) {
     console.error(err.message);
-    res.status(500).send('Server Error');
+    res.status(500).send('Erro no Servidor');
   }
 });
 
@@ -100,18 +100,18 @@ router.delete('/:id', auth, async (req, res) => {
   try {
     let contact = await Contact.findById(req.params.id);
 
-    if (!contact) return res.status(404).json({ msg: 'Contact not found' });
+    if (!contact) return res.status(404).json({ msg: 'Contato não encontrado!' });
 
     // Make sure user owns contact
     if (contact.user.toString() !== req.user.id) {
-      return res.status(401).json({ msg: 'Not authorized' });
+      return res.status(401).json({ msg: 'Não Autorizado!' });
     }
 
     await Contact.findByIdAndRemove(req.params.id);
-    res.json({ msg: ' Contact removed' });
+    res.json({ msg: ' Contato Removido' });
   } catch (err) {
     console.error(err.message);
-    res.status(500).send('Server Error');
+    res.status(500).send('Erro no Servidor');
   }
 });
 module.exports = router;
