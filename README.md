@@ -53,7 +53,7 @@ Database:
 - [MongoDB](https://www.mongodb.com/)
 
 
-![ScreenShot](https://raw.githubusercontent.com/danielofaustino/contact-keeper/master/screenshot/contactkeeper.mp4)
+![ScreenShot](https://raw.githubusercontent.com/danielofaustino/contact-keeper/master/screenshot/contactkeeper.gif)
 
 
 ### Author
